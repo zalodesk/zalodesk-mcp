@@ -9,6 +9,8 @@ Server: `https://app.zalodesk.com/api/mcp` (Streamable HTTP, OAuth sign-in with 
 
 ## Tools
 
+Inbox:
+
 | Tool | What it does |
 |---|---|
 | `list_accounts` | The Zalo accounts you can use, by workspace |
@@ -16,9 +18,27 @@ Server: `https://app.zalodesk.com/api/mcp` (Streamable HTTP, OAuth sign-in with 
 | `read_messages` | The messages of one conversation, oldest first, with paging |
 | `search_messages` | Search an account's messages for text |
 | `send_message` | Send a text message in a conversation |
+| `mark_read` | Mark a conversation read |
+| `find_contact_by_phone` | Find a Zalo user by phone number, to message them |
+| `list_friend_requests`, `accept_friend_request` | Friend requests on a personal Zalo account |
+| `list_labels`, `set_label` | Labels (Nhãn) on a conversation |
+
+Team (Phân quyền):
+
+| Tool | What it does |
+|---|---|
+| `list_team` | Everyone on the team: their Zalo accounts and chats, OA access, role, permissions, who they report to |
+| `add_team_member` | Invite someone by Google email, with their Zalo, chats and permissions |
+| `update_team_member` | Change a member's Zalo, chats, role, permissions or reporting line |
+| `remove_team_member` | Remove a member, handing their customers to someone first |
+| `resend_invite` | Send an expired invite again |
+| `get_routing`, `update_routing` | Who gets new chats and calls (Chia khách tự động, Cuộc gọi) |
+| `assign_conversation` | Give a conversation to team members |
+| `list_call_log` | Recent Zalo OA calls: who rang, who answered |
 
 You get what your ZaloDesk role allows. An employee sees only the chats assigned to them, and a
-role without send permission can read but not send.
+role without send permission can read but not send. The team tools are for the workspace owner;
+routing is for the owner and Quản trị viên.
 
 ## Before you start
 
@@ -53,8 +73,9 @@ sign in when asked.
   `npx -y mcp-remote@0.1.49`, downloaded from the npm registry.
 - **Stored credentials.** mcp-remote keeps the OAuth tokens in `~/.mcp-auth`. Hermes never sees
   them. A sign-in lasts 30 days from the last use.
-- **Sends real messages.** `send_message` sends from your Zalo account. The plugin marks the
-  server untrusted, so Hermes asks before every send and refuses sends in unattended runs.
+- **Sends real messages and changes your team.** `send_message` sends from your Zalo account, and
+  the team tools add, change and remove people's access. The plugin marks the server untrusted, so
+  Hermes asks before every tool that is not read-only and refuses them in unattended runs.
 - **No telemetry in the package.** ZaloDesk's server records which tool ran, its result code and
   how long it took, never message content.
 - The tool set is served by the remote server at runtime and is not covered by the pinned commit.
