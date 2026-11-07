@@ -1,0 +1,22 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "zalodesk",
+  "version": "1.0.0",
+  "description": "Read, search and reply to Zalo chats, personal Zalo and Zalo Official Accounts, through ZaloDesk.",
+  "author": {
+    "name": "ZaloDesk",
+    "email": "support@zalodesk.com",
+    "url": "https://zalodesk.com"
+  },
+  "homepage": "https://zalodesk.com",
+  "repository": "https://github.com/BAODAU/zalodesk-mcp",
+  "license": "MIT",
+  "keywords": ["zalo", "zalo-oa", "inbox", "messaging", "vietnam", "mcp"],
+  "extensions": {
+    "com.nousresearch.hermes": {
+      "servers": {
+        "zalodesk": { "trust": "untrusted" }
+      }
+    }
+  }
+}
