@@ -19,8 +19,9 @@ description: Work a Zalo inbox and its team through ZaloDesk. Catch up on unread
 7. Call `list_team` before any change. Each member says what you may change (`can`, `may_report_to`, `handover_to`); stay inside it.
 8. `zalo` is `{account_id: "all"}` or `{account_id: [conversation_id, …]}`; `oa` is `{oa_account_id: "assigned" | "team" | "all"}`.
    In `update_team_member`, `zalo`, `oa` and `permissions` replace the whole value, so send the full new value.
+   A Gmail address gets no invite email: give the user `sign_in_link` to pass on, or tell the person to sign in with that Gmail.
 9. `update_routing` saves the whole config: start from `get_routing` and change only what the user asked.
-10. Before any add, change, removal or routing save, tell the user exactly what will change and wait for their yes.
+10. Before any add, change, removal, routing save or `move_company_zalo`, tell the user exactly what will change and wait for their yes.
     Removing someone cuts their access at once; offer `handover_to` when they have customers.
 
 Errors come back as plain sentences. Pass them on to the user. A ZaloDesk role without send permission can read but not send.

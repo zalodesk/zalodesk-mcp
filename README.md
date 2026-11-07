@@ -28,13 +28,15 @@ Team (Phân quyền):
 | Tool | What it does |
 |---|---|
 | `list_team` | Everyone on the team: their Zalo accounts and chats, OA access, role, permissions, who they report to |
-| `add_team_member` | Invite someone by Google email, with their Zalo, chats and permissions |
-| `update_team_member` | Change a member's Zalo, chats, role, permissions or reporting line |
+| `add_team_member` | Invite someone by Google email, with their Zalo, chats and permissions; returns the sign-in link to give them |
+| `update_team_member` | Change a member's Zalo, chats, role, permissions or reporting line; for a PC, team lead, seat limit and settings access |
 | `remove_team_member` | Remove a member, handing their customers to someone first |
 | `resend_invite` | Send an expired invite again |
 | `get_routing`, `update_routing` | Who gets new chats and calls (Chia khách tự động, Cuộc gọi) |
 | `assign_conversation` | Give a conversation to team members |
 | `list_call_log` | Recent Zalo OA calls: who rang, who answered |
+| `simulate_call` | Who would ring if this customer called a Zalo OA now; rings nobody |
+| `move_company_zalo`, `remove_company_zalo` | Which PC runs a company Zalo, with no QR; drop one no desktop has any more |
 
 You get what your ZaloDesk role allows. An employee sees only the chats assigned to them, and a
 role without send permission can read but not send. The team tools are for the workspace owner;
