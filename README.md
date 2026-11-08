@@ -37,6 +37,7 @@ Team (Phân quyền):
 | `list_call_log` | Recent Zalo OA calls: who rang, who answered |
 | `simulate_call` | Who would ring if this customer called a Zalo OA now; rings nobody |
 | `move_company_zalo`, `remove_company_zalo` | Which PC runs a company Zalo, with no QR; drop one no desktop has any more |
+| `list_ai_credit`, `set_ai_credit` | What each staff PC may spend from the owner's AI wallet, and has used |
 
 You get what your ZaloDesk role allows. An employee sees only the chats assigned to them, and a
 role without send permission can read but not send. The team tools are for the workspace owner;
@@ -75,8 +76,9 @@ sign in when asked.
   `npx -y mcp-remote@0.1.49`, downloaded from the npm registry.
 - **Stored credentials.** mcp-remote keeps the OAuth tokens in `~/.mcp-auth`. Hermes never sees
   them. A sign-in lasts 30 days from the last use.
-- **Sends real messages and changes your team.** `send_message` sends from your Zalo account, and
-  the team tools add, change and remove people's access. The plugin marks the server untrusted, so
+- **Sends real messages, changes your team and spends credit.** `send_message` sends from your
+  Zalo account, the team tools add, change and remove people's access, and `set_ai_credit` lets a
+  staff PC spend from your AI wallet. The plugin marks the server untrusted, so
   Hermes asks before every tool that is not read-only and refuses them in unattended runs.
 - **No telemetry in the package.** ZaloDesk's server records which tool ran, its result code and
   how long it took, never message content.
