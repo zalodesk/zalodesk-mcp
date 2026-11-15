@@ -1,13 +1,34 @@
 # ZaloDesk MCP
 
-Read, search and reply to your Zalo chats from an AI agent.
-[ZaloDesk](https://zalodesk.com) is a shared Zalo inbox for teams: personal Zalo accounts and
-Zalo Official Accounts (OA) in one place. This repository holds its hosted MCP server's
-connection details and a [Hermes Agent](https://hermes-agent.nousresearch.com) plugin.
+Read, search and reply to your Zalo chats from an AI agent, and manage which staff member handles
+which customers.
 
-Server: `https://app.zalodesk.com/api/mcp` (Streamable HTTP, OAuth sign-in with your ZaloDesk account).
+[ZaloDesk](https://zalodesk.com) is a shared Zalo inbox for teams in Vietnam: personal Zalo accounts
+and Zalo Official Accounts (OA) in one place, with roles and permissions per staff member. This
+MCP server lets Claude, ChatGPT, Cursor, Hermes Agent and other MCP clients work that inbox.
+
+- Server: `https://app.zalodesk.com/api/mcp`
+- Transport: Streamable HTTP (remote, nothing to install)
+- Sign-in: OAuth 2.1 with your ZaloDesk account (dynamic client registration, PKCE)
+- Docs: [app.zalodesk.com/developers/mcp](https://app.zalodesk.com/developers/mcp)
+
+## What you can ask
+
+- "Which Zalo chats are unread? Summarise each and tell me who is waiting on a price."
+- "Find the customer who sent 0912 345 678 last week and show me the conversation."
+- "Search all my Zalo messages for 'hoàn tiền' and list the orders mentioned."
+- "Reply to chị Lan: hàng đã gửi sáng nay, mã vận đơn là GHN123." (the agent confirms the text with you first)
+- "Tag every conversation that asked about delivery with the label Giao hàng."
+- "Message 0987 654 321 on Zalo: hello, this is the shop, your order is ready."
+- "Accept the pending friend requests on the sales Zalo."
+- "Add an@gmail.com to the team with access to the sales Zalo, reading but not sending."
+- "Give the new customer from this chat to Minh."
+- "Who answers Zalo OA calls right now, and who missed calls today?"
 
 ## Tools
+
+25 tools. Only the tools that read are marked `readOnlyHint`, and the server tells the agent to
+confirm every send and change with you first.
 
 Inbox:
 
@@ -49,26 +70,63 @@ routing is for the owner and Quản trị viên.
 - Personal Zalo accounts are served by the ZaloDesk desktop app, so the computer running it must
   be on. Zalo OA accounts work at any time.
 
-## Hermes Agent
+## Connect
+
+The first tool call opens the ZaloDesk sign-in in your browser.
+
+### Claude (claude.ai, Claude Desktop)
+
+Settings → Connectors → Add custom connector, URL `https://app.zalodesk.com/api/mcp`.
+
+### Claude Code
+
+```bash
+claude mcp add --transport http zalodesk https://app.zalodesk.com/api/mcp
+```
+
+### Cursor
+
+`~/.cursor/mcp.json`:
+
+```json
+{
+  "mcpServers": {
+    "zalodesk": { "url": "https://app.zalodesk.com/api/mcp" }
+  }
+}
+```
+
+### VS Code
+
+`.vscode/mcp.json`:
+
+```json
+{
+  "servers": {
+    "zalodesk": { "type": "http", "url": "https://app.zalodesk.com/api/mcp" }
+  }
+}
+```
+
+### Hermes Agent
 
 ```bash
 hermes plugins install zalodesk
 hermes plugins enable zalodesk
 ```
 
-The first tool call opens the ZaloDesk sign-in in your browser. Sign-in runs
-`npx mcp-remote@0.1.49`, so Node.js 20.18.1+ and npm are required.
+Sign-in runs `npx mcp-remote@0.1.49`, so Node.js 20.18.1+ and npm are required.
 
-## Claude Code
+### ChatGPT and other clients
 
-```bash
-claude mcp add --transport http zalodesk https://app.zalodesk.com/api/mcp
-```
+Add a remote MCP server (custom connector) with the URL `https://app.zalodesk.com/api/mcp`. A
+client that only runs local servers can use `npx -y mcp-remote https://app.zalodesk.com/api/mcp`
+as the command.
 
-## Claude, ChatGPT, Cursor and other clients
+### Terminal
 
-Add a remote MCP server (custom connector) with the URL `https://app.zalodesk.com/api/mcp`, then
-sign in when asked.
+[`zalodesk`](https://github.com/zalodesk/zalodesk-cli) on npm runs the same tools from a shell:
+`npx zalodesk login`.
 
 ## What the Hermes plugin does on your machine
 
@@ -86,4 +144,4 @@ sign in when asked.
 
 ## License
 
-MIT
+MIT for this repository (plugin files and docs). The ZaloDesk server and app are proprietary.
